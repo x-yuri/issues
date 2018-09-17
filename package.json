@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "cypress": "^3.4.0",
+    "serve": "^11.1.0"
+  },
+  "scripts": {
+    "serve": "serve -l 33333",
+    "open-cypress": "cypress open"
+  }
+}
