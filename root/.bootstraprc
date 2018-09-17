@@ -1,0 +1,10 @@
+---
+bootstrapVersion: 3
+styleLoaders:
+  - style-loader
+  - css-loader
+  - sass-loader
+bootstrapCustomizations: src/bootstrap-customizations.scss
+styles:
+  glyphicons: true
+useCustomIconFontPath: true
