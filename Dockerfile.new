@@ -1,0 +1,12 @@
+FROM alpine
+
+RUN apk add tree rsync
+
+WORKDIR /site
+RUN mkdir -p public/assets \
+    && echo 2.css > public/assets/2.css \
+    && echo robots.txt > public/robots.txt \
+    && mkdir bin
+COPY entrypoint.sh bin
+
+ENTRYPOINT ["bin/entrypoint.sh"]

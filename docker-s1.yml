@@ -1,0 +1,17 @@
+version: '3'
+
+volumes:
+  docroot:
+  uploads:
+
+services:
+  site:
+    image: localhost:5000/i1
+    volumes:
+      - docroot:/docroot
+      - uploads:/site/public/uploads
+
+  nginx:
+    image: nginx
+    volumes:
+      - docroot:/docroot
