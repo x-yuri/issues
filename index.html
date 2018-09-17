@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    console.log('-'.repeat(40) + ' connect');
+    const socket = io({transports: ['websocket']});
+    let connected;
+    socket.on('connect', () => {
+        if (connected)
+            return;
+        connected = true;
+
+        console.log('-'.repeat(40) + ' disconnect');
+        socket.disconnect();
+
+        console.log('-'.repeat(40) + ' connect');
+        socket.connect();
+    });
+</script>
+</body>
+</html>
