@@ -4,7 +4,6 @@
 
 ```js
 import './1.css';
-import './1.min.css';
 ```
 
 [`src/1.css`][2]:
@@ -12,24 +11,36 @@ import './1.min.css';
 [2]: src/1.css
 
 ```css
+@import './2.css';
+@import './2.min.css';
 body::before {
     content: "1.css";
 }
 ```
 
-[`src/1.min.css`][3]:
+[`src/2.css`][3]:
 
-[3]: src/1.min.css
+[3]: src/2.css
 
 ```css
 body::before {
-    content: "1.min.css";
+    content: "2.css";
 }
 ```
 
-[`webpack.config.js`][4]:
+[`src/2.min.css`][4]:
 
-[4]: webpack.config.js
+[4]: src/2.min.css
+
+```css
+body::before {
+    content: "2.min.css";
+}
+```
+
+[`webpack.config.js`][5]:
+
+[5]: webpack.config.js
 
 ```js
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -56,30 +67,42 @@ $ npm i
 $ ./node_modules/.bin/webpack
 $ cat dist/main.css
 body::before {
-    content: "1.css";
+    content: "2.css";
 }
 
 body::before {
-    content: "1.min.css";
+    content: "2.min.css";
+}
+
+body::before {
+    content: "1.css";
 }
 ```
 
 Changing order:
 
 ```js
-import './1.min.css';
-import './1.css';
+@import './2.min.css';
+@import './2.css';
+body::before {
+    content: "1.css";
+}
 ```
 
 ```
 $ ./node_modules/.bin/webpack
 $ cat dist/main.css
 body::before {
-    content: "1.min.css";
+    content: "2.min.css";
+}
+
+body::before {
+    content: "2.css";
 }
 
 body::before {
     content: "1.css";
 }
-
 ```
+
+https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/200#issuecomment-429157446
