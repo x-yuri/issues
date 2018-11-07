@@ -5,7 +5,7 @@
     "css-loader": "^1.0.0",
     "file-loader": "^2.0.0",
     "node-sass": "^4.9.4",
-    "resolve-url-loader": "^3.0.0",
+    "resolve-url-loader": "2.x",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.20.2",
