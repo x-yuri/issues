@@ -1,3 +1,6 @@
+const webpack = require('webpack');
+const path = require('path');
+
 module.exports = {
     module: {
         rules: [{
@@ -5,4 +8,9 @@ module.exports = {
             use: 'file-loader',
         }],
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            BOOTSTRAP_CONFIG: JSON.stringify(path.join(__dirname, '.bootstraprc')),
+        }),
+    ],
 };
