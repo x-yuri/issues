@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js" integrity="sha256-9Nt2r+tJnSd2A2CRUvnjgsD+ES1ExvjbjBNqidm9doI=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<form id="f1">
+    <button id="order-button" data-url="{% url 'order' %}">
+        Place an Order
+    </button>
+</form>
+
+<script>
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    function xhrRequest(method, url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener("load", callback);
+        xhr.open(method, url);
+        xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
+        xhr.send();
+    }
+
+    $('order-button').onclick = function() {
+        xhrRequest('POST', this.dataset.url, function onLoad() {
+            $('f1').innerHTML = 'Thank you';
+        });
+        return false;
+    }
+</script>
+
+</body>
+</html>
