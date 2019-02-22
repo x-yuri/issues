@@ -1,3 +1,5 @@
+	$ git clone https://github.com/x-yuri/issues -b cypress-should-contain
+	$ cd issues
 	$ python -m venv env
 	$ . env/bin/activate
 	$ pip install -r requirements.txt
