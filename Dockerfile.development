@@ -4,6 +4,8 @@ ENV BUNDLE_PATH vendor/bundle
 
 RUN apk add --no-cache build-base tzdata \
         nodejs-current yarn \
+        postgresql-dev \
+        wait4ports \
     && gem install bundler
 WORKDIR /app
 
