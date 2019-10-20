@@ -1,6 +1,19 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
+  def ip
+    render plain: "remote_ip: #{request.remote_ip}\n" \
+      + "Host: #{request.headers["HTTP_HOST"]}\n" \
+      + "X-Forwarded-For: #{request.headers["HTTP_X_FORWARDED_FOR"]}\n" \
+      + "REMOTE_ADDR: #{request.headers["REMOTE_ADDR"]}\n" \
+      + "---\n" \
+      + (request.headers.map do |k,v|
+        if k !~ /\A(rack|action_dispatch|puma|action_controller)\./
+          "#{k}: #{v}\n"
+        end
+      end).compact.join('')
+  end
+
   # GET /posts
   # GET /posts.json
   def index
