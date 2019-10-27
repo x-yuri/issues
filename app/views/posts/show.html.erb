@@ -15,5 +15,11 @@
   <%= @post.content %>
 </p>
 
+<p>
+  <%= image_tag '/uploads/' + @post.picture, style: '
+    max-width: 300px;
+  ' %>
+</p>
+
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>

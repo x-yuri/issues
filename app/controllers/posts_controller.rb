@@ -24,10 +24,16 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
+    picture = post_params[:picture]
+    @post = Post.new(post_params
+      .merge({picture: picture.original_filename}))
 
     respond_to do |format|
       if @post.save
+        path = Rails.root.join('public', 'uploads', picture.original_filename)
+        File.open(path, 'wb') do |file|
+          file.write(picture.read)
+        end
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
@@ -69,6 +75,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:name, :title, :content)
+      params.require(:post).permit(:name, :title, :content, :picture)
     end
 end
