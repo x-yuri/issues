@@ -15,8 +15,13 @@ services:
       - 3000  # for jwilder/nginx-proxy
     networks:
       - nginx-proxy
+    volumes:
+      - uploads:/app/public/uploads
     restart: always
 
 networks:
   nginx-proxy:
     external: true
+
+volumes:
+  uploads:
