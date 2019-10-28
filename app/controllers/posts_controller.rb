@@ -14,6 +14,9 @@ class PostsController < ApplicationController
       end).compact.join('')
   end
 
+  def assets_test
+  end
+
   # GET /posts
   # GET /posts.json
   def index
