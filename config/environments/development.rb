@@ -1,3 +1,6 @@
+require 'socket'
+require 'ipaddr'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -59,4 +62,8 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.web_console.permissions = Socket.getifaddrs
+    .select { |ifa| ifa.addr.ipv4_private? }
+    .map { |ifa| IPAddr.new(ifa.addr.ip_address + '/' + ifa.netmask.ip_address) }
 end
