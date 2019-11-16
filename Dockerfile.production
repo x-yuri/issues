@@ -2,6 +2,7 @@ FROM ruby:2-alpine
 
 RUN apk add --no-cache build-base tzdata \
         nodejs-current yarn \
+        postgresql-dev \
     && gem install bundler
 WORKDIR /app
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
@@ -13,7 +14,8 @@ RUN SECRET_KEY_BASE=`bin/rails secret` RAILS_ENV=production \
 
 FROM ruby:2-alpine
 
-RUN apk add --no-cache tzdata \
+# pg <- libpq
+RUN apk add --no-cache tzdata libpq wait4ports \
     && gem install bundler
 WORKDIR /app
 COPY . .
