@@ -1,0 +1,10 @@
+FROM ruby:2-alpine
+
+ENV BUNDLE_PATH vendor/bundle
+
+RUN apk add --no-cache build-base tzdata \
+        nodejs-current yarn \
+    && gem install bundler
+WORKDIR /app
+
+CMD ["docker/entrypoint-development.sh"]
