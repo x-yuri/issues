@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    env_file:
+      - .env.production
+      - .env.production.secret
+    environment:
+      - "VIRTUAL_HOST=DOMAIN"  # for jwilder/nginx-proxy
+      - "LETSENCRYPT_HOST=DOMAIN"  # for jrcs/letsencrypt-nginx-proxy-companion
+    expose:
+      - 3000  # for jwilder/nginx-proxy
+    networks:
+      - nginx-proxy
+    restart: always
+
+networks:
+  nginx-proxy:
+    external: true

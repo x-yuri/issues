@@ -1,0 +1,24 @@
+FROM ruby:2-alpine
+
+RUN apk add --no-cache build-base tzdata \
+        nodejs-current yarn \
+    && gem install bundler
+WORKDIR /app
+COPY Gemfile Gemfile.lock package.json yarn.lock ./
+RUN bundle install --without development test \
+    && NODE_ENV=production yarn install
+COPY . .
+RUN SECRET_KEY_BASE=`bin/rails secret` RAILS_ENV=production \
+        bin/rails assets:precompile
+
+FROM ruby:2-alpine
+
+RUN apk add --no-cache tzdata \
+    && gem install bundler
+WORKDIR /app
+COPY . .
+COPY --from=0 /usr/local/bundle /usr/local/bundle
+COPY --from=0 /app/public/assets public/assets
+COPY --from=0 /app/public/packs public/packs
+
+CMD ["docker/entrypoint-production.sh"]

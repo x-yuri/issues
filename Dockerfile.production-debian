@@ -1,0 +1,27 @@
+FROM ruby:2
+
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
+        | tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update \
+    && apt-get install -y nodejs yarn \
+    && gem install bundler
+WORKDIR /app
+COPY Gemfile Gemfile.lock package.json yarn.lock ./
+RUN bundle install --without development test \
+    && NODE_ENV=production yarn install
+COPY . .
+RUN SECRET_KEY_BASE=`bin/rails secret` RAILS_ENV=production \
+        bin/rails assets:precompile
+
+FROM ruby:2
+
+RUN gem install bundler
+WORKDIR /app
+COPY . .
+COPY --from=0 /usr/local/bundle /usr/local/bundle
+COPY --from=0 /app/public/assets public/assets
+COPY --from=0 /app/public/packs public/packs
+
+CMD ["docker/entrypoint-production.sh"]
