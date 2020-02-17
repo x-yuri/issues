@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+<script>
+    var socket = io('http://localhost:3000');
+    socket.on('connect', () => {
+        socket.on('logged-in', () => {
+            socket.emit('myping');
+            console.log('> myping');
+        });
+        socket.on('mypong', () => {
+            console.log('< mypong');
+        });
+        socket.emit('login', {username: 'admin', password: '123456'});
+    });
+</script>
+</body>
+</html>
