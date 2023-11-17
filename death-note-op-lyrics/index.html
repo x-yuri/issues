@@ -2,18 +2,12 @@
 <html>
 <head>
     <style>
-        /*
-        .word {
-            border-bottom-: 1px solid #999;
-            margin-left-: 2px;
+        .controls {
+            position: fixed;
+            right: 0;
+            top: 0;
+            padding: 8px;
         }
-        .word:first-child {
-            margin-left-: 0;
-        }
-        ruby {
-            ruby-align-: start;
-        }
-        */
         a {
             color: #000;
             margin-left: 2px;
@@ -21,11 +15,8 @@
         a:first-child {
             maring-left: 0;
         }
-        .controls {
-            position: fixed;
-            right: 0;
-            top: 0;
-            padding: 8px;
+        [data-mode=translation] ruby {
+            ruby-align: start;
         }
     </style>
 </head>
@@ -170,7 +161,7 @@
         >「<a href="https://jisho.org/word/%E7%B5%82%E5%B9%95"
             ><ruby
                 ><span class="base">終幕</span
-                ><rp>(</rp><rt>おわる</rt><rp>)</rp
+                ><rp>(</rp><rt>おわり</rt><rp>)</rp
             ></ruby
         ></a
         >」<a href="https://jisho.org/word/%E3%82%92"
@@ -319,9 +310,10 @@
                                 : el).join('')
                         })
                 );
+            document.body.dataset.mode = 'hiragana';
         }
 
-        function switchToTranslations() {
+        function switchToTranslation() {
             Array.from(document.querySelectorAll('p.jp'))
                 .forEach((p, i) =>
                     Array.from(p.querySelectorAll('a'))
@@ -336,13 +328,18 @@
                                 + '</ruby>'
                                 : word;
                         }));
+            document.body.dataset.mode = 'translation';
         }
 
         const hiraganaEl = document.querySelector('[name=ruby][value=hiragana]');
         hiraganaEl.addEventListener('click', switchToHiragana);
         const translationEl = document.querySelector('[name=ruby][value=translation]');
-        translationEl.addEventListener('click', switchToTranslations);
-        if (![hiraganaEl, translationEl].some(el => el.checked))
+        translationEl.addEventListener('click', switchToTranslation);
+        if (hiraganaEl.checked)
+            document.body.dataset.mode = 'hiragana';
+        else if (translationEl.checked)
+            document.body.dataset.mode = 'translation';
+        else
             hiraganaEl.click();
     </script>
 </body>
